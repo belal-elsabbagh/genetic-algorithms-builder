@@ -14,3 +14,4 @@ if __name__ == '__main__':
         mutate=lambda x: x,
         select=lambda x: x
     )
+    print(ga.run([1, 2, 3, 4, 5], 10))
