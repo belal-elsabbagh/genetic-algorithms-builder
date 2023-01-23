@@ -53,5 +53,5 @@ if __name__ == '__main__':
         crossover=mate,
     )
     res = ga.run(Individual.create_random_population(
-        100, rand_individual), 200, "hello world")
-    print(f"Answer: {res.get_chromosome()}")
+        100, rand_individual), 200, "hello world", log=True)
+    print(f"Answer: {res[0].get_chromosome()}")

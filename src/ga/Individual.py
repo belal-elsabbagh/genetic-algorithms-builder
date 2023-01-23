@@ -1,3 +1,8 @@
+"""
+This module contains the Individual class.
+"""
+
+
 class Individual(object):
     """Individual class."""
 
