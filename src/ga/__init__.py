@@ -1,3 +1,7 @@
+"""
+Genetic Algorithm
+"""
+
 from src.ga import GeneticAlgorithm, GeneticAlgorithmFactory
 
 
