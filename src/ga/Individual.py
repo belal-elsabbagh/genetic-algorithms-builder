@@ -3,6 +3,9 @@ This module contains the Individual class.
 """
 
 
+import random
+
+
 class Individual(object):
     """Individual class."""
 
@@ -17,6 +20,12 @@ class Individual(object):
         return self.__chromosome
 
     @staticmethod
-    def create_random_population(size: int, create_random_individual):
+    def random_population(size: int, target_size, genes):
         """Create a random population of individuals."""
-        return [create_random_individual() for _ in range(size)]
+        return [Individual([random.choice(genes) for _ in range(target_size)]) for _ in range(size)]
+
+    def add_mutations(self, genes):
+        """Add mutations to the individual."""
+        self.__chromosome = [random.choice(
+            genes) if v is None else v for v in self.__chromosome]
+        return self

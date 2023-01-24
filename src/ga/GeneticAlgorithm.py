@@ -39,7 +39,7 @@ class GeneticAlgorithm(object):
         new_gen = [
             self.__crossover(
                 random.choice(parents),
-                random.choice(parents)
+                random.choice(parents),
             )
             for _ in range(len(parents*2))
         ]
