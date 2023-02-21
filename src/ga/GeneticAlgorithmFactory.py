@@ -20,18 +20,14 @@ class GeneticAlgorithmFactory(object):
         fitness: Callable[[Individual, any], float] = None,
         crossover=None,
         mutate=None,
-        select=None
+        select=None,
+        ga_type=GeneticAlgorithm
     ) -> GeneticAlgorithm:
         """Create a Genetic Algorithm object."""
-        attributes = self.build_attributes(
-            validate, fitness, crossover, mutate, select)
-        return GeneticAlgorithm(
-            validate=attributes['validate'],
-            fitness=attributes['fitness'],
-            crossover=attributes['crossover'],
-            mutate=attributes['mutate'],
-            select=attributes['select']
-        )
+        if not issubclass(ga_type, GeneticAlgorithm):
+            raise TypeError(f"{ga_type} is not a subclass of GeneticAlgorithm.")
+        return ga_type(**self.build_attributes(
+            validate, fitness, crossover, mutate, select))
 
     def build_attributes(
         self,
