@@ -72,13 +72,5 @@ class GeneticAlgorithm(object):
 
 
 class NumberGeneticAlgorithm(GeneticAlgorithm):
-    _maximize: bool
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._maximize = kwargs.get('maximize', False)
-        
-    def run(self, population: list[Individual], generations, log: bool = False):
-        return super().run(population, generations, log, self._maximize)
-    
-    
-    
