@@ -36,5 +36,5 @@ def test_numeric_algorithm():
         select=lambda x: x[:int(len(x)*0.05)],
     )
     population = NumberIndividual.random_population(20, list(range(1025)))
-    res = ga.run(population, 3000, True)
+    res = ga.run(population, 200, True)
     assert float(res[0]) == 0

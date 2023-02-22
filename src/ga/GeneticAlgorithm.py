@@ -19,6 +19,18 @@ class GeneticAlgorithm(object):
         self._crossover = kwargs.get('crossover')
         self._mutate = kwargs.get('mutate')
         self._select = kwargs.get('select')
+        
+    def get_fitness(self):
+        return self._fitness
+    
+    def get_crossover(self):
+        return self._crossover
+    
+    def get_mutate(self):
+        return self._mutate
+    
+    def get_select(self):
+        return self._select
 
     def run(self, population: list[Individual], generations, log: bool = False, reverse: bool = False):
         pool = population
