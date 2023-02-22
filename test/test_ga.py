@@ -2,13 +2,12 @@
 Test the genetic algorithm.
 """
 
-import random
 import string
-from data.graph import EUROPE_GRAPH
-from src.ga.Individual import Individual
-from src.ga.crossover import mate
-from src.ga.fitness import match_target
+from src.ga.Individual import Individual,NumberIndividual
+from src.util import match_target
 from src.ga.GeneticAlgorithmFactory import GeneticAlgorithmFactory
+from src.ga.GeneticAlgorithm import NumberGeneticAlgorithm
+from src.ga.TargetMatchingGeneticAlgorithm import TargetMatchingGeneticAlgorithm
 
 
 CHARACTERS = string.ascii_lowercase + ' '
@@ -19,36 +18,23 @@ def test_target_string():
     target = "hello world"
     ga = GeneticAlgorithmFactory().create(
         fitness=match_target,
-        crossover=mate,
+        crossover=Individual.mate,
         mutate=lambda x: x.add_mutations(CHARACTERS),
+        ga_type=TargetMatchingGeneticAlgorithm
     )
     population = Individual.random_population(100, len(target), CHARACTERS)
     res = ga.run(population, 200, target)
     assert res[0].get_chromosome() == list(target)
 
 
-def path_cost(ind, target):
-    def get_cost_of_edge(start, end):
-        return EUROPE_GRAPH.get(start).get(end, 10000)
-
-    def get_cost_of_path(path):
-        return sum([get_cost_of_edge(previous, current) for previous, current in zip(path, path[1:])])
-
-    if ind.get_chromosome()[0] != target[0]:
-        return 10000
-
-    return get_cost_of_path(ind.get_chromosome())
-
-
-def test_shortest_path():
-    """Test the genetic algorithm with a given target function."""
-    target = ['Arad', 'Sibiu', 'RimnicuVilcea', 'Pitesti', 'Bucharest']
-    ga = GeneticAlgorithmFactory().create(
-        fitness=match_target,
-        crossover=mate,
-        mutate=lambda x: x.add_mutations(list(EUROPE_GRAPH.keys())),
+def test_numeric_algorithm():
+    """Test the genetic algorithm with a numeric target function."""
+    ga = NumberGeneticAlgorithm(
+        fitness=lambda x: float(x)*float(x),
+        crossover=lambda x, y: x + y,
+        mutate=lambda x: NumberIndividual(str("".join([str(i) for i in x.get_chromosome()])).replace('None', '0')),
+        select=lambda x: x[:int(len(x)*0.05)],
     )
-    population = Individual.random_population(
-        100, len(target), list(EUROPE_GRAPH.keys()))
-    res = ga.run(population, 2000, target, log=True)
-    assert res[0].get_chromosome() == target
+    population = NumberIndividual.random_population(20, list(range(1025)))
+    res = ga.run(population, 3000, True)
+    assert float(res[0]) == 0

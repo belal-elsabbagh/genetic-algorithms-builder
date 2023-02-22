@@ -43,5 +43,5 @@ class GeneticAlgorithmFactory(object):
             'fitness': fitness if fitness is not None else lambda x, y: 0,
             'crossover': crossover if crossover is not None else lambda x, y: x,
             'mutate': mutate if mutate is not None else lambda x: x,
-            'select': select if select is not None else lambda x: x[:int(len(x)*0.1)]
+            'select': select if select is not None else lambda x: x[:int(len(x)*0.05)]
         }

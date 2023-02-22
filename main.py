@@ -3,8 +3,9 @@
 import string
 from src.ga import GeneticAlgorithmFactory
 from src.ga.TargetMatchingGeneticAlgorithm import TargetMatchingGeneticAlgorithm
-from src.ga.Individual import Individual
-from src.util import mate, match_target
+from src.ga.GeneticAlgorithm import NumberGeneticAlgorithm
+from src.ga.Individual import Individual, NumberIndividual
+from src.util import match_target
 
 
 CHARACTERS = string.ascii_lowercase + ' '
@@ -14,10 +15,23 @@ if __name__ == '__main__':
     target = "covenant of the deep"
     ga = GeneticAlgorithmFactory().create(
         fitness=match_target,
-        crossover=mate,
+        crossover=Individual.mate,
         mutate=lambda x: x.add_mutations(CHARACTERS),
-        ga_type=TargetMatchingGeneticAlgorithm
+        ga_type=TargetMatchingGeneticAlgorithm,
+        select=lambda x: x[:int(len(x)*0.05)]
     )
-    population = Individual.random_population(50, len(target), CHARACTERS)
+    population = Individual.random_population(20, len(target), CHARACTERS)
     res = ga.run(population, 200, target, log=True)
     print(f"Answer: {res[0].get_chromosome()}")
+    
+    ga = NumberGeneticAlgorithm(
+        fitness=lambda x: float(x)*float(x),
+        crossover=lambda x, y: x + y,
+        mutate=lambda x: NumberIndividual(str("".join([str(i) for i in x.get_chromosome()])).replace('None', '0')),
+        select=lambda x: x[:int(len(x)*0.05)],
+    )
+    population = NumberIndividual.random_population(20, list(range(1025)))
+    res = ga.run(population, 3000, True)
+    print(f"Answer: {res[0].get_chromosome()}")
+    
+    

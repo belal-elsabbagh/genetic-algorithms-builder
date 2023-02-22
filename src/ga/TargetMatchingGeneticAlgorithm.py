@@ -17,7 +17,7 @@ class TargetMatchingGeneticAlgorithm(GeneticAlgorithm):
             best_individual = pool[0]
             best_fitness = self._fitness(best_individual, target)
             if log:
-                print(self._log_msg(gen_i, best_individual, best_fitness))
+                print(self._log_msg(gen_i, best_individual, best_fitness) + f'\tPool: {len(pool)}')
             if best_fitness <= 0:
                 return pool
             pool = self._new_pool(pool)
