@@ -59,7 +59,7 @@ class GeneticAlgorithm(object):
 
     def _log_msg(self, generation, best: Individual, fitness_score):
         """Generate a log message."""
-        return f'Gen {generation}:\tBest: {best.get_chromosome()}\tFitness: {fitness_score}'
+        return f'Gen {generation}:\tBest: {"".join(best.get_chromosome())}\tFitness: {fitness_score}'
 
     @staticmethod
     def _get_ratio(population: list[Individual], ratio: float):

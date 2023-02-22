@@ -21,7 +21,7 @@ if __name__ == '__main__':
         select=lambda x: x[:int(len(x)*0.05)]
     )
     population = Individual.random_population(20, len(target), CHARACTERS)
-    res = ga.run(population, 200, target, log=True)
+    res = ga.run(population, 1000, target, log=True)
     print(f"Answer: {res[0].get_chromosome()}")
     
     ga = NumberGeneticAlgorithm(

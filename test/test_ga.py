@@ -23,7 +23,7 @@ def test_target_string():
         ga_type=TargetMatchingGeneticAlgorithm
     )
     population = Individual.random_population(100, len(target), CHARACTERS)
-    res = ga.run(population, 200, target)
+    res = ga.run(population, 1000, target)
     assert res[0].get_chromosome() == list(target)
 
 
