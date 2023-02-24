@@ -3,7 +3,7 @@ Test the genetic algorithm.
 """
 
 import string
-from src.ga.Individual import Individual,NumberIndividual
+from src.ga.Individual import Individual, NumberIndividual
 from src.util import match_target
 from src.ga.GeneticAlgorithmFactory import GeneticAlgorithmFactory
 from src.ga.GeneticAlgorithm import NumberGeneticAlgorithm
@@ -30,11 +30,11 @@ def test_target_string():
 def test_numeric_algorithm():
     """Test the genetic algorithm with a numeric target function."""
     ga = NumberGeneticAlgorithm(
-        fitness=lambda x: float(x)*float(x),
+        fitness=lambda x: abs(25 - float(x)*float(x)),
         crossover=lambda x, y: x + y,
-        mutate=lambda x: NumberIndividual(str("".join([str(i) for i in x.get_chromosome()])).replace('None', '0')),
+        mutate=NumberGeneticAlgorithm.mutate,
         select=lambda x: x[:int(len(x)*0.05)],
     )
-    population = NumberIndividual.random_population(20, list(range(1025)))
+    population = NumberIndividual.random_population(50, list(range(1025)))
     res = ga.run(population, 200, True)
-    assert float(res[0]) == 0
+    assert float(res[0]) == 5

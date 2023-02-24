@@ -25,13 +25,13 @@ if __name__ == '__main__':
     print(f"Answer: {res[0].get_chromosome()}")
     
     ga = NumberGeneticAlgorithm(
-        fitness=lambda x: float(x)*float(x),
+        fitness=lambda x: abs(25 - float(x)*float(x)),
         crossover=lambda x, y: x + y,
         mutate=lambda x: NumberIndividual(str("".join([str(i) for i in x.get_chromosome()])).replace('None', '0')),
         select=lambda x: x[:int(len(x)*0.05)],
     )
-    population = NumberIndividual.random_population(20, list(range(1025)))
-    res = ga.run(population, 3000, True)
-    print(f"Answer: {res[0].get_chromosome()}")
+    population = NumberIndividual.random_population(50, list(range(200)))
+    res = ga.run(population, 200, True)
+    print(f"Answer: {float(res[0])}")
     
     

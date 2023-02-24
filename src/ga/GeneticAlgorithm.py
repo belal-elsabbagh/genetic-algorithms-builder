@@ -2,7 +2,7 @@
 import random
 from typing import Callable
 
-from src.ga.Individual import Individual
+from src.ga.Individual import Individual, NumberIndividual
 
 
 class GeneticAlgorithm(object):
@@ -19,16 +19,16 @@ class GeneticAlgorithm(object):
         self._crossover = kwargs.get('crossover')
         self._mutate = kwargs.get('mutate')
         self._select = kwargs.get('select')
-        
+
     def get_fitness(self):
         return self._fitness
-    
+
     def get_crossover(self):
         return self._crossover
-    
+
     def get_mutate(self):
         return self._mutate
-    
+
     def get_select(self):
         return self._select
 
@@ -36,11 +36,13 @@ class GeneticAlgorithm(object):
         pool = population
         """Run the Genetic Algorithm."""
         for gen_i in range(generations):
-            pool = sorted(pool, key=lambda x: self._fitness(x), reverse=reverse)
+            pool = sorted(pool, key=lambda x: self._fitness(x),
+                          reverse=reverse)
             best_individual = pool[0]
             best_fitness = self._fitness(best_individual)
             if log:
-                print(self._log_msg(gen_i, best_individual, best_fitness) + f'\tPool: {len(pool)}')
+                print(self._log_msg(gen_i, best_individual,
+                      best_fitness) + f'\tPool: {len(pool)}')
             if best_fitness <= 0:
                 return pool
             pool = self._new_pool(pool)
@@ -74,3 +76,8 @@ class GeneticAlgorithm(object):
 class NumberGeneticAlgorithm(GeneticAlgorithm):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    @staticmethod
+    def mutate(x):
+        return NumberIndividual(
+            str("".join([str(i) for i in x.get_chromosome()])).replace('None', '0'))
