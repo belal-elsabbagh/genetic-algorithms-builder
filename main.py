@@ -10,23 +10,16 @@ CHARACTERS = string.ascii_lowercase + ' '
 
 
 if __name__ == '__main__':
-    # ga = KnapsackGeneticAlgorithm(
-    #     items=[
-    #         [1, 2],
-    #         [2, 4],
-    #         [3, 4],
-    #         [4, 5],
-    #         [5, 7],
-    #         [6, 9]
-    #     ],
-    #     max_weight=10,
-    #     crossover=lambda x, y: x + y,
-    #     mutate=lambda x: x,
-    #     select=lambda x: x[:int(len(x)*0.05)]
-    # )
-    # population = KnapsackIndividual.random_population(10, ga.items)
-    # res = ga.run(population, 200, debug=True)
-    # print(f"Answer: {res[0].render(ga.items)}")
+    ga = KnapsackGeneticAlgorithm(
+        items=[[1, 2], [2, 4], [3, 4], [4, 5], [5, 7], [6, 9]],
+        max_weight=10,
+        crossover=lambda x, y: x + y,
+        mutate=lambda x: x,
+        select=lambda x: x[:int(len(x)*0.05)]
+    )
+    population = KnapsackIndividual.random_population(10, ga.items)
+    res = ga.run(population, 200, debug=True)
+    print(f"Answer: {res[0].render(ga.items)}")
 
     ga = NumberGeneticAlgorithm(
         fitness=lambda x: abs(25 - float(x)*float(x)),

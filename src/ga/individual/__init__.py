@@ -42,7 +42,8 @@ class Individual(object):
         '''
         Perform mating and produce new offspring
         '''
-        c1, c2 = cls._create_child_chromosome(par1.get_chromosome(), par2.get_chromosome())
+        c1, c2 = cls._create_child_chromosome(
+            par1.get_chromosome(), par2.get_chromosome())
         return cls(c1), cls(c2)
 
     def __add__(self, other):
@@ -50,9 +51,10 @@ class Individual(object):
 
     def add_mutations(self, genes):
         """Add mutations to the individual."""
-        self._chromosome[random.randint(0, len(self._chromosome) - 1)] = random.choice(genes)
+        self._chromosome[random.randint(
+            0, len(self._chromosome) - 1)] = random.choice(genes)
         return self
-    
+
     @staticmethod
     def mutate(x):
         index = random.randint(0, len(x.get_chromosome()) - 1)
@@ -124,7 +126,7 @@ class NSpacePointIndividual(Individual):
     def dim(self, ind):
         c = NumberIndividual.fmt_bin_str(self._chromosome[ind])
         if '-' in c:
-            return - int(c[1:],2)
+            return - int(c[1:], 2)
         return int(NumberIndividual.fmt_bin_str(self._chromosome[ind]), 2)
 
     @classmethod
@@ -136,33 +138,30 @@ class NSpacePointIndividual(Individual):
 
 
 class KnapsackIndividual(Individual):
-        def __init__(self, chromosome: list = None):
-            super().__init__(chromosome)
-            
-        @classmethod
-        def random_population(cls, size: int, genes):
-            """Create a random population of individuals."""
-            return [cls([random.choice([0, 1]) for _ in range(len(genes))]) for _ in range(size)]
-        
-        def __add__(self, other):
-            return self.__class__.mate(self, other)
-        
-        def render_items(self, items):
-            return [items[i] for i, x in enumerate(self.get_chromosome()) if x == 1]
-        
-        def fitness(self, items):
-            return sum([x[1] for x in self.render_items(items)])
-        
-        def weight(self, items):
-            return sum([x[0] for x in self.render_items(items)])
-        
-        def render(self, items) -> str:
-            d = {'Weight': self.weight(items), 'Value': self.fitness(items)}
-            return f"{d}"
-        
-        
-        
-        
-           
-        
-        
+    def __init__(self, chromosome: list = None):
+        super().__init__(chromosome)
+
+    @classmethod
+    def random_population(cls, size: int, genes):
+        """Create a random population of individuals."""
+        return [cls([random.choice([0, 1]) for _ in range(len(genes))]) for _ in range(size)]
+
+    def __add__(self, other):
+        return self.__class__.mate(self, other)
+
+    def render_items(self, items):
+        return [items[i] for i, x in enumerate(self.get_chromosome()) if x == 1]
+
+    def fitness(self, items):
+        return sum([x[1] for x in self.render_items(items)])
+
+    def weight(self, items):
+        return sum([x[0] for x in self.render_items(items)])
+
+    def get_chosen(self, items):
+        return [j[0] for i, j in zip(self.get_chromosome(), items) if i == 1]
+
+    def render(self, items) -> str:
+        d = {'Chosen': self.get_chosen(items), 'Weight': self.weight(items),
+             'Value': self.fitness(items)}
+        return f"{d}"
