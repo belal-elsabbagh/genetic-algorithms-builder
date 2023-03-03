@@ -52,6 +52,12 @@ class Individual(object):
         """Add mutations to the individual."""
         self._chromosome[random.randint(0, len(self._chromosome) - 1)] = random.choice(genes)
         return self
+    
+    @staticmethod
+    def mutate(x):
+        index = random.randint(0, len(x.get_chromosome()) - 1)
+        x.get_chromosome()[index] = 1 - x.get_chromosome()[index]
+        return x
 
 
 def bin_str(n: float | int) -> str:
@@ -60,17 +66,13 @@ def bin_str(n: float | int) -> str:
 
 class NumberIndividual(Individual):
     def __init__(self, chromosome: float | int | list = None):
-        chromosome = bin_str(chromosome) if self._is_number(
+        chromosome = [int(i) for i in bin_str(chromosome)] if self._is_number(
             chromosome) else chromosome
         super().__init__(chromosome)
 
     @staticmethod
     def _is_number(n) -> bool:
         return type(n) is int or type(n) is float
-
-    @staticmethod
-    def fmt_mutation(x):
-        return str("".join([str(i) for i in x])).replace('None', '0')
 
     @staticmethod
     def fmt_bin_str(s):
