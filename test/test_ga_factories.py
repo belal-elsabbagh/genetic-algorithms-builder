@@ -1,11 +1,10 @@
-from src.ga.Individual import Individual
-from src.util import match_target
+from src.ga.individual import Individual
 from src.ga import GeneticAlgorithm
 from src.ga import TargetMatchingGeneticAlgorithm
 
 def test_generic_factory():
     ga = GeneticAlgorithm.create(
-        fitness=match_target,
+        fitness=TargetMatchingGeneticAlgorithm.match_target,
         crossover=Individual.mate,
         mutate=lambda x: x.add_mutations([]),
     )

@@ -1,7 +1,7 @@
 import random
 from typing import Callable
 
-from src.ga.Individual import Individual
+from src.ga.individual import Individual
 
 
 class GeneticAlgorithm(object):
@@ -94,15 +94,16 @@ class GeneticAlgorithm(object):
 
     def _reproduce(self, parents: list[Individual]):
         """Create a new generation of individuals."""
-        new_gen = [
-            self._crossover(random.choice(parents), random.choice(parents))
-            for _ in range(len(parents*2))
-        ]
+        new_gen = []
+        for _ in range(len(parents)):
+            kids = self._crossover(random.choice(parents), random.choice(parents))
+            new_gen.append(kids[0])
+            new_gen.append(kids[1])
         return [self._mutate(ind) for ind in new_gen]
 
     def _log_msg(self, generation, best: Individual, fitness_score, pool_size):
         """Generate a log message."""
-        return f'Gen {generation}:\tBest: {"".join(best.get_chromosome())}\tFitness: {fitness_score}\tPool: {pool_size}'
+        return f'Gen {generation}:\tBest: {"".join([str(i) for i in best.get_chromosome()])}\tFitness: {fitness_score}\tPool: {pool_size}'
 
     @staticmethod
     def _get_ratio(population: list[Individual], ratio: float):
